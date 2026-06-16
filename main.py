@@ -1,3 +1,4 @@
+import threading
 import pygame
 import pygame_gui
 
@@ -19,6 +20,7 @@ rect = pygame.Rect(100, 100, 300, 200)
 ###---Gens
 Gen_amount = 0
 Gen_price = 0
+Gen_amount_of_add = 0
 
 ###---Power
 Power = 1
@@ -41,14 +43,17 @@ Shop_Icon = pygame_gui.elements.UIButton(
 my_window = None
 Clicks_text = None
 ggonb = None
+Gen_amount_of_add_text = None
 
 clock = pygame.time.Clock()
 is_running = True
 
 #########
 ###FUGGVENYEK###
+
+###---CLicker ablak megnyitasa, clicker ablakon beluli dolgok csak itt lesznek tenylegesen megnyitva
 def open_clicker_window():
-    global my_window, Clicks_text, ggonb
+    global my_window, Clicks_text, ggonb, Gen_amount_of_add_text
 
     my_window = pygame_gui.elements.UIWindow(
     rect=rect,
@@ -72,6 +77,17 @@ def open_clicker_window():
         container=my_window,
         anchors={"center":"center"}
         )
+    
+    Gen_amount_of_add_text = pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect(0,50,100,50),
+        text=f"Gen: {Gen_amount_of_add}/s",
+        manager=manager,
+        container=my_window,
+        anchors={"center":"center"}
+    )
+
+###-- Gen hozzadasa
+
 
 #########
 ###MAIN###
