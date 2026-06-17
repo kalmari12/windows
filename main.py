@@ -40,10 +40,14 @@ Shop_Icon = pygame_gui.elements.UIButton(
 )
 
 ### Emiatt nem mutat semmit alapbol a kis windowwal kapcsolatban
+###--- Gen adatok
 my_window = None
 Clicks_text = None
 ggonb = None
 Gen_amount_of_add_text = None
+
+###--- Shop adatok
+Shop_window = None
 
 clock = pygame.time.Clock()
 is_running = True
@@ -86,8 +90,16 @@ def open_clicker_window():
         anchors={"center":"center"}
     )
 
-###-- Gen hozzadasa
+###-- Shop ablak
+shop_window_rect = pygame.Rect(100, 100,300,200)
 
+
+Shop_window = pygame_gui.elements.UIWindow(
+    rect=shop_window_rect,
+    manager=manager,
+    window_display_title="Shop",
+    object_id="Shop_Window"
+)
 
 #########
 ###MAIN###
@@ -105,6 +117,7 @@ while is_running:
             if event.ui_element == Clicker_Icon:
                 if my_window is None:
                     open_clicker_window()
+                    Shop_window.show()
         ### Clickek regisztralasa es tarolasa
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == ggonb:
