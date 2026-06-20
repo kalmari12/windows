@@ -168,7 +168,7 @@ def open_clicker_window():
 
 ###-- Shop ablak
 def open_shop_window():
-    global Shop_window, shop_scrolling_container, upgrades_label, upgrade_1_button, upgrade_2_button, upgrade_3_button, upgrade_4_button, upgrade_5_button, upgrade_6_button, upgrade_7_button
+    global Shop_window, shop_scrolling_container, upgrades_label, upgrade_1_button, upgrade_2_button, upgrade_3_button, upgrade_4_button, upgrade_5_button, upgrade_6_button, upgrade_7_button, Gens_lable 
 
     Shop_window = pygame_gui.elements.UIWindow(
         rect=shop_window_rect,
@@ -188,8 +188,8 @@ def open_shop_window():
     shop_scrolling_container.set_scrollable_area_dimensions((270, 700))
 
     upgrades_label = pygame_gui.elements.UITextBox(
-        relative_rect=pygame.Rect(0,10,85,35),
-        html_text="<b>Upgrades</b>",
+        relative_rect=pygame.Rect(0,10,131,35),
+        html_text="<b>Power upgrades</b>",
         manager=manager,
         container=shop_scrolling_container,
         anchors={"centerx":"centerx",
@@ -265,6 +265,16 @@ def open_shop_window():
     anchors={"centerx":"centerx",
              "top":'top',}
     )
+
+    Gens_lable = pygame_gui.elements.UITextBox(
+        relative_rect=pygame.Rect(0, 380, 159,35),
+        html_text="<b>Generator Upgrades</b>",
+        manager=manager,
+        container=shop_scrolling_container,
+        anchors={"centerx":"centerx"}
+    )
+
+
 ###--- power defek
 def Power_Upgrade(which_upgrade):
     global Power, Click_Power_amount_text
