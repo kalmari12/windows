@@ -399,6 +399,7 @@ while is_running:
             if upgrade_1_button is not None:
                 upgrade_1_button.set_text(f"Upgrade 1 ({Power_Upgrade_Price_1}$)")
             pygame.time.set_timer(UPGRADE_TIMER_EVENT, 0)
+
         ### upgrade_2 power hozzadasa
         if upgrade_2_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_2_button:
@@ -407,6 +408,7 @@ while is_running:
             if upgrade_2_button is not None:
                 upgrade_2_button.set_text(f"Upgrade 2 ({Power_Upgrade_Price_2}$)")
             pygame.time.set_timer(UPGRADE_TIMER_EVENT_2, 0)
+
         ### upgrade_3 power hozzadasa
         if upgrade_3_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_3_button:
@@ -414,6 +416,7 @@ while is_running:
         if event.type == UPGRADE_TIMER_EVENT_3:
             if upgrade_3_button is not None:
                 upgrade_3_button.set_text(f"Upgrade 3 ({Power_Upgrade_Price_3}$)")
+            pygame.time.set_timer(UPGRADE_TIMER_EVENT_3, 0)    
         ### upgrade_4 power hozzadasa
         if upgrade_4_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_4_button:
@@ -422,6 +425,7 @@ while is_running:
             if upgrade_4_button is not None:
                 upgrade_4_button.set_text(f"Upgrade 4 ({Power_Upgrade_Price_4}$)")
             pygame.time.set_timer(UPGRADE_TIMER_EVENT_4, 0)
+
         ### upgrade_5 power hozzadasa
         if upgrade_5_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_5_button:
@@ -430,6 +434,7 @@ while is_running:
             if upgrade_5_button is not None:
                 upgrade_5_button.set_text(f"Upgrade 5 ({Power_Upgrade_Price_5}$)")
             pygame.time.set_timer(UPGRADE_TIMER_EVENT_5, 0)
+
         ### upgrade_6 power hozzadasa
         if upgrade_6_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_6_button:
@@ -437,7 +442,8 @@ while is_running:
         if event.type == UPGRADE_TIMER_EVENT_6:
             if upgrade_6_button is not None:
                 upgrade_6_button.set_text(f"Upgrade 6 ({Power_Upgrade_Price_6}$)")
-            pygame.time.set_timer(UPGRADE_TIMER_EVENT_5, 0)
+            pygame.time.set_timer(UPGRADE_TIMER_EVENT_6, 0)
+
         ### upgrade_7 power hozzadasa
         if upgrade_7_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_7_button:
@@ -446,6 +452,7 @@ while is_running:
             if upgrade_7_button is not None:
                 upgrade_7_button.set_text(f"Upgrade 7 ({Power_Upgrade_Price_7}$)")
             pygame.time.set_timer(UPGRADE_TIMER_EVENT_7, 0)
+
 ##############################################################################################################################
 ###GENS###
 
