@@ -94,7 +94,14 @@ ggonb = None
 Gen_amount_of_add_text = None
 Click_Power_amount_text = None
 
-###--->>>
+###--->>> Gen buttons
+Gen_button_1 = None
+Gen_button_2 = None
+Gen_button_3 = None
+Gen_button_4 = None
+Gen_button_5 = None
+Gen_button_6 = None
+Gen_button_7 = None
 
 ###--- Shop adatok
 shop_window_rect = pygame.Rect(100, 100,300,200)
@@ -108,7 +115,7 @@ upgrade_4_button = None
 upgrade_5_button = None
 upgrade_6_button = None
 upgrade_7_button = None
-
+###--->>>××× EVENT timerek upgrade
 UPGRADE_TIMER_EVENT = pygame.event.custom_type()
 UPGRADE_TIMER_EVENT_2 = pygame.event.custom_type()
 UPGRADE_TIMER_EVENT_3 = pygame.event.custom_type()
@@ -116,6 +123,12 @@ UPGRADE_TIMER_EVENT_4 = pygame.event.custom_type()
 UPGRADE_TIMER_EVENT_5 = pygame.event.custom_type()
 UPGRADE_TIMER_EVENT_6 = pygame.event.custom_type()
 UPGRADE_TIMER_EVENT_7 = pygame.event.custom_type()
+
+###--->>>××× EVENT timerek gen
+GEN_TICK_EVENT = pygame.event.custom_type()
+GEN_TIMER_EVENT_1 = pygame.event.custom_type()
+
+
 
 clock = pygame.time.Clock()
 is_running = True
@@ -168,7 +181,7 @@ def open_clicker_window():
 
 ###-- Shop ablak
 def open_shop_window():
-    global Shop_window, shop_scrolling_container, upgrades_label, upgrade_1_button, upgrade_2_button, upgrade_3_button, upgrade_4_button, upgrade_5_button, upgrade_6_button, upgrade_7_button, Gens_lable 
+    global Shop_window, shop_scrolling_container, upgrades_label, upgrade_1_button, upgrade_2_button, upgrade_3_button, upgrade_4_button, upgrade_5_button, upgrade_6_button, upgrade_7_button, Gens_lable, Gen_button_1, Gen_button_2, Gen_button_3,Gen_button_4,Gen_button_5,Gen_button_6,Gen_button_7
 
     Shop_window = pygame_gui.elements.UIWindow(
         rect=shop_window_rect,
@@ -274,18 +287,74 @@ def open_shop_window():
         anchors={"centerx":"centerx"}
     )
 
+    Gen_button_1 = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect(0,425,150,35),
+    text=f"Gen 1 ({Gen_1_price}$)",
+    manager=manager,
+    container=shop_scrolling_container,
+    tool_tip_text=f"This Item generates you {Gen_1_add_cpc} clicks/s!",
+    anchors={"centerx":"centerx",
+             "top":'top',}
+    ) 
 
+    Gen_button_2 = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect(0,425,150,35),
+    text=f"Gen 2 ({Gen_2_price}$)",
+    manager=manager,
+    container=shop_scrolling_container,
+    tool_tip_text=f"This Item generates you {Gen_2_add_cpc} clicks/s!",
+    anchors={"centerx":"centerx",
+             "top":'top',}
+    ) 
+
+    Gen_button_3 = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect(0,425,150,35),
+    text=f"Gen 3 ({Gen_3_price}$)",
+    manager=manager,
+    container=shop_scrolling_container,
+    tool_tip_text=f"This Item generates you {Gen_3_add_cpc} clicks/s!",
+    anchors={"centerx":"centerx",
+             "top":'top',}
+    ) 
+
+    Gen_button_4 = pygame_gui.elements.UIButton(
+    relative_rect=pygame.Rect(0,425,150,35),
+    text=f"Gen 4 ({Gen_4_price}$)",
+    manager=manager,
+    container=shop_scrolling_container,
+    tool_tip_text=f"This Item generates you {Gen_4_add_cpc} clicks/s!",
+    anchors={"centerx":"centerx",
+             "top":'top',}
+    ) 
 ###--- power defek
+def Click_add_upgraded_power(which_upgrade_button, which_upgrade_price, which_upgrade_, which_upgrade_timer_event):
+    global Shop_window, shop_scrolling_container, upgrades_label, upgrade_1_button, upgrade_2_button, upgrade_3_button, upgrade_4_button, upgrade_5_button, upgrade_6_button, upgrade_7_button, Gens_lable, clicks
+    if clicks >= which_upgrade_price:
+        clicks -= which_upgrade_price
+        Power_Upgrade(which_upgrade_)
+        Clicks_text.set_text(f"Clicks: {clicks}")
+        Clicks_text.set_dimensions((-1, -1))                  
+    else:
+        which_upgrade_button.set_text("Not enough clicks!")
+        pygame.time.set_timer(which_upgrade_timer_event, 2000)
+
 def Power_Upgrade(which_upgrade):
     global Power, Click_Power_amount_text
     Power += which_upgrade
     Click_Power_amount_text.set_text(f"Click Power: {Power}")
-    return Power
+    return Power 
 
-def Gen_Upgrade(which_gen):
-    global power, Gen_amount_of_add_text
-    clicks += which_gen
-    Gen_amount_of_add_text.set_text(f"Gen: {Gen_amount_of_add}/s") 
+def Gen_Upgrade(which_gen_price, which_cpc, which_gen_button, which_ggen_timer_event):
+    global power, Gen_amount_of_add_text, Gen_amount_of_add, clicks, Gen_button_1, Gen_button_2, Gen_button_3, Gen_button_4, Gen_button_5, Gen_button_6, Gen_button_7
+    if clicks >= which_gen_price:
+        clicks -= which_gen_price
+        Gen_amount_of_add += which_cpc
+        clicks += Gen_amount_of_add
+        Gen_amount_of_add_text.set_text(f"Gen: {Gen_amount_of_add}/s")
+        Gen_amount_of_add_text.set_dimensions((-1, -1))
+    else:
+        which_gen_button.set_text("Not enough clicks!")
+        pygame.time.set_timer(which_ggen_timer_event, 2000)
 #########
 
 ###MAIN###
@@ -324,15 +393,7 @@ while is_running:
         ### Upgrade_1 power hozzaadas
         if upgrade_1_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_1_button:
-                ###--- hozzaadja a powert, levonja a clicket, atirja a clicket
-                if clicks >= Power_Upgrade_Price_1:
-                    clicks -= Power_Upgrade_Price_1
-                    Power_Upgrade(Power_Upgrade_1)
-                    Clicks_text.set_text(f"Clicks: {clicks}")
-                ###--- ha nincs elég click akkor irja ki hogy nincs eleg click es inditson el egy idozitot 2 masodpercre
-                else:
-                    upgrade_1_button.set_text("Not enough clicks!")
-                    pygame.time.set_timer(UPGRADE_TIMER_EVENT, 2000)
+                Click_add_upgraded_power(upgrade_1_button,Power_Upgrade_Price_1,Power_Upgrade_1,UPGRADE_TIMER_EVENT)
         ###--->>> visszaallitja a gombot "Not enough clicks!"-ről az eredeti szövegre
         if event.type == UPGRADE_TIMER_EVENT:
             if upgrade_1_button is not None:
@@ -341,16 +402,7 @@ while is_running:
         ### upgrade_2 power hozzadasa
         if upgrade_2_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_2_button:
-                ###--- hozzaadja a powert, levonja a clicket, atirja a clicket
-                if clicks >= Power_Upgrade_Price_2:
-                    clicks -= Power_Upgrade_Price_2
-                    Power_Upgrade(Power_Upgrade_2)
-                    Clicks_text.set_text(f"Clicks: {clicks}")
-                ###--- ha nincs elég click akkor irja ki hogy nincs eleg click es inditson el egy idozitot 2 masodpercre
-                else:
-                    upgrade_2_button.set_text("Not enough clicks!")
-                    pygame.time.set_timer(UPGRADE_TIMER_EVENT_2, 2000)
-        ###--->>> visszaallitja a gombot "Not enough clicks!"-ről az eredeti szövegre
+                Click_add_upgraded_power(upgrade_2_button,Power_Upgrade_Price_2,Power_Upgrade_2,UPGRADE_TIMER_EVENT_2)
         if event.type == UPGRADE_TIMER_EVENT_2:
             if upgrade_2_button is not None:
                 upgrade_2_button.set_text(f"Upgrade 2 ({Power_Upgrade_Price_2}$)")
@@ -358,32 +410,14 @@ while is_running:
         ### upgrade_3 power hozzadasa
         if upgrade_3_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_3_button:
-                ###--- hozzaadja a powert, levonja a clicket, atirja a clicket
-                if clicks >= Power_Upgrade_Price_3:
-                    clicks -= Power_Upgrade_Price_3
-                    Power_Upgrade(Power_Upgrade_3)
-                    Clicks_text.set_text(f"Clicks: {clicks}")
-                ###--- ha nincs elég click akkor irja ki hogy nincs eleg click es inditson el egy idozitot 2 masodpercre
-                else:
-                    upgrade_3_button.set_text("Not enough clicks!")
-                    pygame.time.set_timer(UPGRADE_TIMER_EVENT_3, 2000)
-        ###--->>> visszaallitja a gombot "Not enough clicks!"-ről az eredeti szövegre
+                Click_add_upgraded_power(upgrade_3_button,Power_Upgrade_Price_3,Power_Upgrade_3,UPGRADE_TIMER_EVENT_3)
         if event.type == UPGRADE_TIMER_EVENT_3:
             if upgrade_3_button is not None:
                 upgrade_3_button.set_text(f"Upgrade 3 ({Power_Upgrade_Price_3}$)")
         ### upgrade_4 power hozzadasa
         if upgrade_4_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_4_button:
-                ###--- hozzaadja a powert, levonja a clicket, atirja a clicket
-                if clicks >= Power_Upgrade_Price_4:
-                    clicks -= Power_Upgrade_Price_4
-                    Power_Upgrade(Power_Upgrade_4)
-                    Clicks_text.set_text(f"Clicks: {clicks}")
-                ###--- ha nincs elég click akkor irja ki hogy nincs eleg click es inditson el egy idozitot 2 masodpercre
-                else:
-                    upgrade_4_button.set_text("Not enough clicks!")
-                    pygame.time.set_timer(UPGRADE_TIMER_EVENT_4, 2000)
-        ###--->>> visszaallitja a gombot "Not enough clicks!"-ről az eredeti szövegre
+                Click_add_upgraded_power(upgrade_4_button,Power_Upgrade_Price_4,Power_Upgrade_4,UPGRADE_TIMER_EVENT_4)
         if event.type == UPGRADE_TIMER_EVENT_4:
             if upgrade_4_button is not None:
                 upgrade_4_button.set_text(f"Upgrade 4 ({Power_Upgrade_Price_4}$)")
@@ -391,16 +425,7 @@ while is_running:
         ### upgrade_5 power hozzadasa
         if upgrade_5_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_5_button:
-                ###--- hozzaadja a powert, levonja a clicket, atirja a clicket
-                if clicks >= Power_Upgrade_Price_5:
-                    clicks -= Power_Upgrade_Price_5
-                    Power_Upgrade(Power_Upgrade_5)
-                    Clicks_text.set_text(f"Clicks: {clicks}")
-                ###--- ha nincs elég click akkor irja ki hogy nincs eleg click es inditson el egy idozitot 2 masodpercre
-                else:
-                    upgrade_5_button.set_text("Not enough clicks!")
-                    pygame.time.set_timer(UPGRADE_TIMER_EVENT_5, 2000)
-        ###--->>> visszaallitja a gombot "Not enough clicks!"-ről az eredeti szövegre
+                Click_add_upgraded_power(upgrade_5_button,Power_Upgrade_Price_5,Power_Upgrade_5,UPGRADE_TIMER_EVENT_5)
         if event.type == UPGRADE_TIMER_EVENT_5:
             if upgrade_5_button is not None:
                 upgrade_5_button.set_text(f"Upgrade 5 ({Power_Upgrade_Price_5}$)")
@@ -408,16 +433,7 @@ while is_running:
         ### upgrade_6 power hozzadasa
         if upgrade_6_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_6_button:
-                ###--- hozzaadja a powert, levonja a clicket, atirja a clicket
-                if clicks >= Power_Upgrade_Price_6:
-                    clicks -= Power_Upgrade_Price_6
-                    Power_Upgrade(Power_Upgrade_6)
-                    Clicks_text.set_text(f"Clicks: {clicks}")
-                ###--- ha nincs elég click akkor irja ki hogy nincs eleg click es inditson el egy idozitot 2 masodpercre
-                else:
-                    upgrade_6_button.set_text("Not enough clicks!")
-                    pygame.time.set_timer(UPGRADE_TIMER_EVENT_6, 2000)
-        ###--->>> visszaallitja a gombot "Not enough clicks!"-ről az eredeti szövegre
+                Click_add_upgraded_power(upgrade_6_button,Power_Upgrade_Price_6,Power_Upgrade_6,UPGRADE_TIMER_EVENT_6)
         if event.type == UPGRADE_TIMER_EVENT_6:
             if upgrade_6_button is not None:
                 upgrade_6_button.set_text(f"Upgrade 6 ({Power_Upgrade_Price_6}$)")
@@ -425,16 +441,7 @@ while is_running:
         ### upgrade_7 power hozzadasa
         if upgrade_7_button is not None and event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == upgrade_7_button:
-                ###--- hozzaadja a powert, levonja a clicket, atirja a clicket
-                if clicks >= Power_Upgrade_Price_7:
-                    clicks -= Power_Upgrade_Price_7
-                    Power_Upgrade(Power_Upgrade_7)
-                    Clicks_text.set_text(f"Clicks: {clicks}")
-                ###--- ha nincs elég click akkor irja ki hogy nincs eleg click es inditson el egy idozitot 2 masodpercre
-                else:
-                    upgrade_7_button.set_text("Not enough clicks!")
-                    pygame.time.set_timer(UPGRADE_TIMER_EVENT_7, 2000)
-        ###--->>> visszaallitja a gombot "Not enough clicks!"-ről az eredeti szövegre
+                Click_add_upgraded_power(upgrade_7_button,Power_Upgrade_Price_7,Power_Upgrade_7,UPGRADE_TIMER_EVENT_7)
         if event.type == UPGRADE_TIMER_EVENT_7:
             if upgrade_7_button is not None:
                 upgrade_7_button.set_text(f"Upgrade 7 ({Power_Upgrade_Price_7}$)")
